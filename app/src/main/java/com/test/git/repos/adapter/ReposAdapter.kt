@@ -1,10 +1,18 @@
 package com.test.git.repos.adapter
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.test.domain.ReposResponseModel
+import com.test.git.R
 import com.test.git.databinding.RepoItemBinding
 
 
@@ -19,10 +27,12 @@ class ReposAdapter (repos: List<ReposResponseModel>): RecyclerView.Adapter<Repos
         this.callback = callback
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProfileViewHolder {
         context = parent.context
-        val binding = RepoItemBinding.inflate(LayoutInflater.from(context))
-        return ProfileViewHolder(binding)
+        return ProfileViewHolder(LayoutInflater.from(context)
+            .inflate(R.layout.repo_item, parent, false)
+        )
     }
 
     override fun getItemCount(): Int {
@@ -30,24 +40,20 @@ class ReposAdapter (repos: List<ReposResponseModel>): RecyclerView.Adapter<Repos
     }
 
     override fun onBindViewHolder(holder: ProfileViewHolder, position: Int) {
-        holder.bindItem(reposListFiltered[position])
-
-    }
-
-    inner class ProfileViewHolder(private val itemBinding: RepoItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
-        fun  bindItem(itemMeal : ReposResponseModel) {
-            itemBinding.txtItemTitle.text = itemMeal.name
-            itemBinding.descriptionText.text = itemMeal.dateUpdated
-            itemBinding.cardView.setOnClickListener {
-                callback?.onItemSelected(itemMeal)
-            }
-
-
-
+        holder.titleText.text = reposListFiltered[position].name
+        holder.dateText.text = context.getString(R.string.last_updated,reposListFiltered[position].dateUpdated)
+        holder.card.setOnClickListener {
+            callback?.onItemSelected(reposListFiltered[position])
         }
 
     }
 
+    inner class ProfileViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val titleText: TextView = itemView.findViewById(R.id.txtItemTitle)
+        val dateText: TextView = itemView.findViewById(R.id.descriptionText)
+        val card: CardView = itemView.findViewById(R.id.cardView)
+
+    }
 
     interface OnSelectedCallback {
         fun onItemSelected(item: ReposResponseModel)

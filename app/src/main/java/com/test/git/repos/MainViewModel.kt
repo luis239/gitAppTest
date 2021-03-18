@@ -7,6 +7,7 @@ import com.test.domain.SearchRepoUseCase
 import com.test.domain.Failure
 import com.test.git.BaseViewModel
 import com.test.git.Resource
+import com.test.git.common.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,7 +22,7 @@ class MainViewModel  @Inject constructor(private val searchRepoUseCase: SearchRe
     val username = MutableLiveData<String>()
     val usernameError = MutableLiveData<String>()
 
-    val responseSearch = MutableLiveData<Resource<List<ReposResponseModel>>>()
+    val responseSearch = SingleLiveEvent<Resource<List<ReposResponseModel>>>()
 
 
     fun isValid() :Boolean{

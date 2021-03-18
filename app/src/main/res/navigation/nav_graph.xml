@@ -22,6 +22,15 @@
         android:id="@+id/listReposFragment"
         android:name="com.test.git.repos.ListReposFragment"
         android:label="fragment_list_repos"
-        tools:layout="@layout/fragment_list_repos" />
+        tools:layout="@layout/fragment_list_repos" >
+        <action
+            android:id="@+id/action_listReposFragment_to_detailRepoFragment"
+            app:destination="@id/detailRepoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailRepoFragment"
+        android:name="com.test.git.repos.DetailRepoFragment"
+        android:label="fragment_detail_repo"
+        tools:layout="@layout/fragment_detail_repo" />
 
 </navigation>

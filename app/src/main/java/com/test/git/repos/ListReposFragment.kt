@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.test.domain.ReposResponseModel
@@ -32,13 +33,6 @@ class ListReposFragment : Fragment(), ReposAdapter.OnSelectedCallback {
     private val viewModel: MainViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       /* val recipesAdapter = ReposAdapter()
-        recipesAdapter.setCallback(this)
-        binding.recycler.apply {
-            adapter = recipesAdapter
-            layoutManager = LinearLayoutManager(context)
-            setHasFixedSize(true)
-        }*/
         val recipesAdapter = ReposAdapter(viewModel.listRepos)
         val recycler = view.findViewById<RecyclerView>(R.id.recycler)
         recycler.apply {
@@ -46,6 +40,8 @@ class ListReposFragment : Fragment(), ReposAdapter.OnSelectedCallback {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
         }
+
+        recipesAdapter.setCallback(this)
     }
 
     override fun onCreateView(
@@ -68,7 +64,9 @@ class ListReposFragment : Fragment(), ReposAdapter.OnSelectedCallback {
     }
 
     override fun onItemSelected(item: ReposResponseModel) {
-
-
+        Navigation.findNavController(
+            requireActivity(), R.id.fragment_container
+        ).navigate(
+            ListReposFragmentDirections.actionListReposFragmentToDetailRepoFragment())
     }
 }
